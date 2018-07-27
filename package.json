@@ -1,0 +1,14 @@
+{
+  "name": "invie-webpack",
+  "version": "1.0.0",
+  "description": "Llevando un proyecto real a Webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webpack"
+  ],
+  "author": "Juan Carlos Jiménez Gutiérrez <jcjimenez29@misena.edu.co> (https://twitter.com/Jce_)",
+  "license": "MIT"
+}
