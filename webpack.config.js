@@ -1,12 +1,17 @@
 const path = require( 'path' );                                     /* Paquete nativo en Webpack */
-const ExtratTextPlugin = require( 'extract-text-webpack-plugin' );  /* Plugin para extraer archivos de Texto (CSS) Requiere instalación */
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CleanWebpackPlugin = require( 'clean-webpack-plugin' );       /* Plugin para Limpiar todo lo que esté en el directorio 'dist' Requiere instalación */
 
 /* Cambiamos la exportación de un Objeto JSON a un Arroy Function para que pueda reconocer la variable de entorno 'env' */
 module .exports = ( env ) => {
     /* Definición de Plugins */
     const plugins = [
-        new ExtratTextPlugin( 'css/[name].[hash].css' )        /* Todos los archivos extraidos iran a esta ruta con nombres dinámicos*/
+        new MiniCssExtractPlugin({
+            filename: "./css/[name].[hash].css",
+            chunkFilename: "[id].[chunkhash].css"
+        })
     ];
 
     /* Valida las variables de entorno de NODE definidas en el Script lanzado */
@@ -44,12 +49,10 @@ module .exports = ( env ) => {
                 {
                     test: /\.css$/,
                     /* Implementa el Plugin instalado (extract-text-webpack-plugin) */
-                    use: ExtratTextPlugin .extract({
-                        loader: 'css-loader',                       /* Interpresa el CSS */
-                        options: {
-                            minimize: true                          /* Minificación */
-                        }
-                    })
+                    use: [
+                        MiniCssExtractPlugin .loader,
+                        'css-loader'
+                    ]
                 },
                 {
                     test: /\.(jpg|png|gif|svg)$/,                       /* Soporte para extenciones para imagenes */
@@ -62,6 +65,12 @@ module .exports = ( env ) => {
                 }
             ]
         },
-        plugins
+        plugins,
+    	optimization: {
+    		minimizer: [
+    			new UglifyJsPlugin(),
+    			new OptimizeCSSAssetsPlugin({})
+    		]
+    	}
     }
 }
