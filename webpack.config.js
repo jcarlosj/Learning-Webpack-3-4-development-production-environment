@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require( 'clean-webpack-plugin' );       /* Plugin pa
 module .exports = ( env ) => {
     /* Definición de Plugins */
     const plugins = [
-        new ExtratTextPlugin( 'css/[name].css' )        /* Todos los archivos extraidos iran a esta ruta con nombres dinámicos*/
+        new ExtratTextPlugin( 'css/[name].[hash].css' )        /* Todos los archivos extraidos iran a esta ruta con nombres dinámicos*/
     ];
 
     /* Valida las variables de entorno de NODE definidas en el Script lanzado */
@@ -47,8 +47,7 @@ module .exports = ( env ) => {
                     use: ExtratTextPlugin .extract({
                         loader: 'css-loader',                       /* Interpresa el CSS */
                         options: {
-                            minimize: true,                         /* Minificación */
-                            modules: true                           /* Permite la interpretación de CSS dentro de otros CSS */
+                            minimize: true                          /* Minificación */
                         }
                     })
                 },
@@ -56,7 +55,7 @@ module .exports = ( env ) => {
                     test: /\.(jpg|png|gif|svg)$/,                       /* Soporte para extenciones para imagenes */
                     loader: 'url-loader',
                     options: {
-                        limit: 1000000,                     /* Tamaño máximo */
+                        limit: 10000,                       /* Tamaño máximo */
                         fallBack: 'file-loader',            /* Por defecto usa 'publicPath' */
                         name: 'images/[name].[hash].[ext]'  /* Directorio de destino y nombre dinámico, hash dinámico y extensión dinámica de archivos */
                     }
